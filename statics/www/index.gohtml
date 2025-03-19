@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SeniorGoAcademy</title>
+  </head>
+  <body>
+
+    <h1>SeniorGo Academy</h1>
+    <a href="/contributors" class="btn btn-ghost">Contributors</a>
+
+    <div>
+      <a
+        id="auth_admin"
+        href="/admin"
+        class="btn btn-ghost"
+        style="display: none"
+        >Admin</a
+      >
+      <a
+        id="auth_logout"
+        href="/auth/logout"
+        class="btn btn-ghost"
+        style="display: none"
+        >Logout</a
+      >
+      <a id="auth_login" href="/auth/login">Login</a>
+      <a
+        id="auth_nick"
+        href="#"
+        class="btn btn-ghost"
+        style="display: none"
+      ></a>
+      <div id="auth_avatar" role="button" style="display: none;">
+        <div>
+          <img id="auth_avatar_image" alt="Avatar" src="" style="width: 32px; border-radius: 50%;">
+        </div>
+      </div>
+    </div>
+    <span id="version"></span>
+
+    <!-- Footer -->
+    <footer>
+      <div>
+        <p>
+          Hecho con ❤️ desde
+          <a
+            class="link link-primary"
+            href="https://discord.com/channels/1235789126033477632/1242312465052602438"
+            target="_blank"
+            >SeniorGo - Latam</a
+          >
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      const loginBtn = document.getElementById("auth_login");
+      const adminBtn = document.getElementById("auth_admin");
+      const logoutBtn = document.getElementById("auth_logout");
+      const nickLink = document.getElementById("auth_nick");
+      const avatarBtn = document.getElementById("auth_avatar");
+      const avatarImg = document.getElementById("auth_avatar_image");
+      const versionContainer = document.getElementById("version");
+
+      fetch("/version")
+              .then((req) => req.text())
+              .then((version) => {
+                if (versionContainer) {
+                  versionContainer.innerText = version;
+                }
+              });
+
+      fetch("/auth/me")
+              .then((req) => req.json())
+              .then((payload) => {
+                if (payload.error) {
+                  // No logged in
+                  loginBtn.style.display = "inline-flex";
+                  adminBtn.style.display = "none";
+                  logoutBtn.style.display = "none";
+                  nickLink.style.display = "none";
+                  nickLink.innerText = "";
+                } else {
+                  // Logged in
+                  loginBtn.style.display = "none";
+                  adminBtn.style.display = "inline-flex";
+                  logoutBtn.style.display = "inline-flex";
+                  nickLink.style.display = "inline-flex";
+                  nickLink.innerText = payload.nick;
+                  avatarBtn.style.display = "inline-flex";
+                  avatarImg.src = payload.picture;
+                }
+              });
+    </script>
+
+  </body>
+</html>
