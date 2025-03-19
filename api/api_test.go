@@ -52,6 +52,7 @@ func TestNewApi(t *testing.T) {
 		biff.AssertEqualJson(r.BodyJson(), expectedBody)
 	})
 
+	var curseId string
 	t.Run("Create Curse", func(t *testing.T) {
 		r := a.Request("POST", "/v0/curses").
 			WithHeader(auth.XGlueAuthentication, authHeader).
@@ -64,6 +65,7 @@ func TestNewApi(t *testing.T) {
 		biff.AssertEqual(r.StatusCode, http.StatusCreated)
 
 		body := r.BodyJsonMap()
+		curseId = body["id"].(string)
 		expectedBody := map[string]interface{}{
 			"id":                body["id"],
 			"author":            user,
@@ -101,6 +103,29 @@ func TestNewApi(t *testing.T) {
 			},
 		}
 		biff.AssertEqual(r.BodyJsonMap(), expectedBody)
+	})
+
+	t.Run("Modify Curse", func(t *testing.T) {
+		r := a.Request("PATCH", "/v0/curses/"+curseId).
+			WithHeader(auth.XGlueAuthentication, authHeader).
+			WithBodyJson(map[string]string{
+				"title":       "My Curse 2",
+				"description": "This is my description 2",
+			}).
+			Do()
+
+		biff.AssertEqual(r.StatusCode, http.StatusOK)
+
+		body := r.BodyJsonMap()
+		expectedBody := map[string]interface{}{
+			"id":                body["id"],
+			"author":            user,
+			"title":             "My Curse 2",
+			"description":       "This is my description 2",
+			"creation_time":     body["creation_time"],
+			"modification_time": body["modification_time"],
+		}
+		biff.AssertEqualJson(r.BodyJsonMap(), expectedBody)
 	})
 
 }
