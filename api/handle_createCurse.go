@@ -20,7 +20,7 @@ type CreateCurseRequest struct {
 func HandleCreateCurse(input *CreateCurseRequest, w http.ResponseWriter, ctx context.Context) (*Curse, error) {
 
 	curse := Curse{
-		Id:           uuid.NewString(),
+		Id:           "curse-" + uuid.NewString(),
 		Author:       auth.GetAuth(ctx).User,
 		Title:        input.Title,
 		Description:  input.Description,

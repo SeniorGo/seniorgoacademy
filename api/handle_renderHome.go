@@ -30,7 +30,9 @@ func HandleRenderHome(w http.ResponseWriter, r *http.Request) error {
 		return err
 	}
 
-	err = tmpl.Execute(w, curses)
+	err = tmpl.Execute(w, map[string]any{
+		"curses": curses,
+	})
 	if err != nil {
 		log.Println("template 'home':", err)
 	}

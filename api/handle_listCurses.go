@@ -4,6 +4,9 @@ import (
 	"log"
 	"net/http"
 	"sort"
+
+	"golang.org/x/text/collate"
+	"golang.org/x/text/language"
 )
 
 func HandleListCurses(w http.ResponseWriter, r *http.Request) ([]Curse, error) {
@@ -23,8 +26,10 @@ func HandleListCurses(w http.ResponseWriter, r *http.Request) ([]Curse, error) {
 		result[i] = curse.Item
 	}
 
+	collator := collate.New(language.Spanish, collate.Numeric)
+
 	sort.Slice(result, func(i, j int) bool {
-		return result[i].CreationTime.After(result[j].CreationTime)
+		return -1 == collator.CompareString(result[i].Title, result[j].Title)
 	})
 
 	return result, nil

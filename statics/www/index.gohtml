@@ -38,6 +38,28 @@
         </div>
       </div>
     </div>
+
+    <h1>Bienvenido a SeniorGo Academy</h1>
+
+    {{ if .curses }}
+      <p>Estos son nuestros cursos.</p>
+
+    {{ else }}
+      <p>No hay cursos aún.</p>
+    {{ end }}
+
+    {{ range .curses }}
+      <div>
+        <h2>{{ .Title }}</h2>
+        <p>{{ .Description }}</p>
+      </div>
+    {{ else }}
+    {{ end }}
+
+
+
+
+
     <span id="version"></span>
 
     <!-- Footer -->
