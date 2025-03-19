@@ -40,7 +40,7 @@ func main() {
 	fmt.Println(c.ServiceName, VERSION)
 
 	// Notify to discord
-	msg := c.ServiceName + ": Nueva version " + VERSION + "\n" + DESCRIPTION
+	msg := c.ServiceName + ": Nueva version de SeniorGo Academy" + VERSION + "\n" + DESCRIPTION
 	log.Println(msg)
 	err = discord.Notify(c.Discord, msg)
 	if err != nil {

@@ -31,3 +31,8 @@ test:
 .PHONY: version
 version:
 	@echo $(VERSION)
+
+.PHONY: lines
+lines:
+	cloc --exclude-dir=vendor .
+

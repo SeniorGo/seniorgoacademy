@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SeniorGoAcademy</title>
   </head>
-  <body>
+  <body style="max-width: 600px; margin: 0 auto;">
 
     <h1>SeniorGo Academy</h1>
-    <a href="/contributors" class="btn btn-ghost">Contributors</a>
 
     <div>
+      <a href="/contributors" class="btn btn-ghost">Contributors</a>
       <a
         id="auth_admin"
         href="/admin"
@@ -49,9 +49,10 @@
     {{ end }}
 
     {{ range .curses }}
-      <div>
-        <h2>{{ .Title }}</h2>
-        <p>{{ .Description }}</p>
+      <div style="border: solid 1px gray; padding: 16px; margin: 16px;">
+        <div style="font-size: 120%; font-weight: bold;">{{ .Title }}</div>
+        <p style="white-space: break-spaces;">{{ .Description }}</p>
+        <button style="background-color: dodgerblue; color: white; border-radius: 4px; padding: 8px 16px;">Comenzar</button>
       </div>
     {{ else }}
     {{ end }}
